@@ -11,11 +11,15 @@ export default defineConfig(({ mode }) => {
       },
       plugins: [react()],
       define: {
-        'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-        'process.env.MINIMAX_API_KEY': JSON.stringify(env.MINIMAX_API_KEY),
-        'process.env.OPENROUTER_API_KEY': JSON.stringify(env.OPENROUTER_API_KEY),
-        'process.env.OPENAI_API_KEY': JSON.stringify(env.OPENAI_API_KEY)
+        'process.env.API_KEY': JSON.stringify(env.VITE_GEMINI_API_KEY || env.GEMINI_API_KEY),
+        'process.env.GEMINI_API_KEY': JSON.stringify(env.VITE_GEMINI_API_KEY || env.GEMINI_API_KEY),
+        'process.env.MINIMAX_API_KEY': JSON.stringify(env.VITE_MINIMAX_API_KEY || env.MINIMAX_API_KEY),
+        'process.env.MINIMAX_GROUP_ID': JSON.stringify(env.VITE_MINIMAX_GROUP_ID || env.MINIMAX_GROUP_ID),
+        'process.env.OPENROUTER_API_KEY': JSON.stringify(env.VITE_OPENROUTER_API_KEY || env.OPENROUTER_API_KEY),
+        'process.env.OPENAI_API_KEY': JSON.stringify(env.VITE_OPENAI_API_KEY || env.OPENAI_API_KEY),
+        'process.env.AZURE_OPENAI_API_KEY': JSON.stringify(env.VITE_AZURE_OPENAI_API_KEY || env.AZURE_OPENAI_API_KEY),
+        'process.env.AZURE_OPENAI_ENDPOINT': JSON.stringify(env.VITE_AZURE_OPENAI_ENDPOINT || env.AZURE_OPENAI_ENDPOINT),
+        'process.env.AZURE_OPENAI_DEPLOYMENT': JSON.stringify(env.VITE_AZURE_OPENAI_DEPLOYMENT || env.AZURE_OPENAI_DEPLOYMENT)
       },
       resolve: {
         alias: {
