@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import type { GeneratedItem } from '../types';
 import { Loader } from './Loader';
 
@@ -12,34 +12,90 @@ interface ImageModalProps {
   setEditPrompt: (prompt: string) => void;
 }
 
-export const ImageModal: React.FC<ImageModalProps> = ({ 
-  item, 
-  onClose, 
-  onGenerateVariation, 
-  isLoading, 
+export const ImageModal: React.FC<ImageModalProps> = ({
+  item,
+  onClose,
+  onGenerateVariation,
+  isLoading,
   error,
   editPrompt,
-  setEditPrompt 
+  setEditPrompt
 }) => {
+  const [isZoomed, setIsZoomed] = useState(false);
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (isZoomed) {
+          setIsZoomed(false);
+        } else {
+          onClose();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isZoomed, onClose]);
+
+  const handleImageClick = () => {
+    setIsZoomed(!isZoomed);
+  };
+
+  const handleZoomClose = () => {
+    setIsZoomed(false);
+  };
   return (
-    <div 
-        className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50" 
-        aria-modal="true"
-        role="dialog"
-        onClick={onClose}
-    >
-      <div
-        className="bg-slate-800 rounded-lg shadow-2xl w-full max-w-7xl max-h-[95vh] flex flex-col lg:flex-row gap-4 overflow-hidden"
-        onClick={(e) => e.stopPropagation()}
-       >
-         <div className="flex-1 lg:flex-[2] p-4 flex items-center justify-center bg-black/50 min-h-[60vh]">
-            <img
+    <>
+      {/* Modal Zoomed - Fullscreen */}
+      {isZoomed && (
+        <div
+          className="fixed inset-0 bg-black flex items-center justify-center z-[60] cursor-pointer"
+          onClick={handleZoomClose}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Imagem ampliada"
+        >
+          <button
+            onClick={handleZoomClose}
+            className="absolute top-4 right-4 text-white hover:text-teal-400 transition-colors z-[61]"
+            aria-label="Fechar ampliação"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          <img
+            src={item.imageUrl}
+            alt={item.prompt}
+            className="max-w-[95vw] max-h-[95vh] object-contain cursor-zoom-in"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
+
+      {/* Modal Normal */}
+      {!isZoomed && (
+        <div
+          className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50"
+          aria-modal="true"
+          role="dialog"
+          onClick={onClose}
+        >
+          <div
+            className="bg-slate-800 rounded-lg shadow-2xl w-full max-w-7xl max-h-[95vh] flex flex-col lg:flex-row gap-4 overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex-1 lg:flex-[2] p-4 flex items-center justify-center bg-black/50 min-h-[60vh]">
+              <img
                 src={item.imageUrl}
                 alt={item.prompt}
-                className="w-full h-full max-w-none max-h-none object-contain rounded-md"
-            />
-         </div>
-        <div className="flex-1 lg:flex-[1] p-6 flex flex-col justify-between space-y-4 max-w-md lg:max-w-none">
+                className="w-full h-full max-w-none max-h-none object-contain rounded-md cursor-pointer hover:opacity-90 transition-opacity"
+                onClick={handleImageClick}
+                title="Clique para ampliar"
+              />
+            </div>
+            <div className="flex-1 lg:flex-[1] p-6 flex flex-col justify-between space-y-4 max-w-md lg:max-w-none">
           <div>
             <div className="mb-4">
                 <h3 className="text-lg font-semibold text-slate-400">Descrição Original</h3>
@@ -78,17 +134,19 @@ export const ImageModal: React.FC<ImageModalProps> = ({
             {error && <p className="text-red-400 text-center">{error}</p>}
           </div>
 
-        </div>
-        <button 
-            onClick={onClose}
-            className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
-            aria-label="Fechar modal"
-        >
-             <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            </div>
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
+              aria-label="Fechar modal"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-        </button>
-      </div>
-    </div>
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
