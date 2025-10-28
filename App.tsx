@@ -7,11 +7,16 @@ import { ImageUploader } from './components/ImageUploader';
 import { ImageModal } from './components/ImageModal';
 import { generateMoodboardItem } from './services/minimaxService';
 import { editImageWithOpenRouter } from './services/openrouterService';
+import { generateImageWithOpenAI } from './services/openaiService';
+import { ModelSelector } from './components/ModelSelector';
 import type { GeneratedItem, BaseImage } from './types';
+
+type ModelType = 'minimax' | 'openai';
 
 const App: React.FC = () => {
   const [prompt, setPrompt] = useState<string>('');
   const [baseImage, setBaseImage] = useState<BaseImage | null>(null);
+  const [selectedModel, setSelectedModel] = useState<ModelType>('minimax');
   const [generatedItems, setGeneratedItems] = useState<GeneratedItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -41,8 +46,12 @@ const App: React.FC = () => {
         // Usar OpenRouter para edição de imagem (image-to-image)
         newItem = await editImageWithOpenRouter(prompt, baseImage);
       } else {
-        // Usar MiniMax para criação de imagem (text-to-image)
-        newItem = await generateMoodboardItem(prompt, baseImage);
+        // Usar o modelo selecionado para criação de imagem (text-to-image)
+        if (selectedModel === 'openai') {
+          newItem = await generateImageWithOpenAI(prompt);
+        } else {
+          newItem = await generateMoodboardItem(prompt, baseImage);
+        }
       }
 
       setGeneratedItems(prevItems => [newItem, ...prevItems]);
@@ -112,6 +121,13 @@ const App: React.FC = () => {
                 <h2 className="text-xl font-semibold text-teal-400 mb-4">2. Descreva sua Visão</h2>
                 <PromptInput value={prompt} onChange={setPrompt} />
               </div>
+
+              <ModelSelector
+                selectedModel={selectedModel}
+                onModelChange={setSelectedModel}
+                disabled={isLoading}
+              />
+
                <button
                 onClick={handleGenerate}
                 disabled={isLoading || !prompt}
