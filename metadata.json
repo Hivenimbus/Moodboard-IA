@@ -1,0 +1,5 @@
+{
+  "name": "Moodboard de Arquitetura com IA",
+  "description": "Gere moodboards de arquitetura a partir de descrições de texto ou edite uma imagem base. A geração de texto para imagem usa 'imagen-4.0-generate-001' e a edição de imagem é alimentada por 'gemini-2.5-flash-image-preview' (Nano Banana).",
+  "requestFramePermissions": []
+}
