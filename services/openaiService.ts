@@ -20,7 +20,7 @@ export const generateImageWithOpenAI = async (prompt: string): Promise<Generated
         const payload = {
             model: "gpt-image-1-mini", // Modelo solicitado
             prompt: `${MOODBOARD_SYSTEM_PROMPT} Tema: ${prompt}`,
-            size: "1024x1024",
+            size: "1536x1024",
             quality: "low",
             n: 1,
         };
