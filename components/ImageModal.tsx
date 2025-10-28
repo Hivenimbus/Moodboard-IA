@@ -28,18 +28,18 @@ export const ImageModal: React.FC<ImageModalProps> = ({
         role="dialog"
         onClick={onClose}
     >
-      <div 
-        className="bg-slate-800 rounded-lg shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col md:flex-row gap-4 overflow-hidden"
+      <div
+        className="bg-slate-800 rounded-lg shadow-2xl w-full max-w-7xl max-h-[95vh] flex flex-col lg:flex-row gap-4 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
        >
-         <div className="flex-1 p-4 flex items-center justify-center bg-black/50">
-            <img 
-                src={item.imageUrl} 
-                alt={item.prompt} 
-                className="max-w-full max-h-[80vh] object-contain rounded-md"
+         <div className="flex-1 lg:flex-[2] p-4 flex items-center justify-center bg-black/50 min-h-[60vh]">
+            <img
+                src={item.imageUrl}
+                alt={item.prompt}
+                className="w-full h-full max-w-none max-h-none object-contain rounded-md"
             />
          </div>
-        <div className="flex-1 p-6 flex flex-col justify-between space-y-4">
+        <div className="flex-1 lg:flex-[1] p-6 flex flex-col justify-between space-y-4 max-w-md lg:max-w-none">
           <div>
             <div className="mb-4">
                 <h3 className="text-lg font-semibold text-slate-400">Descrição Original</h3>
