@@ -16,7 +16,7 @@ type ModelType = 'minimax' | 'openai';
 const App: React.FC = () => {
   const [prompt, setPrompt] = useState<string>('');
   const [baseImage, setBaseImage] = useState<BaseImage | null>(null);
-  const [selectedModel, setSelectedModel] = useState<ModelType>('minimax');
+  const [selectedModel, setSelectedModel] = useState<ModelType>('openai');
   const [generatedItems, setGeneratedItems] = useState<GeneratedItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
