@@ -23,54 +23,21 @@ View your app in AI Studio: https://ai.studio/apps/drive/1t7eq0p546jsOFAOQib_oOt
 
 **Prerequisites:** Conta no Vercel
 
-### Passo 1: Configure as Variáveis de Ambiente no Vercel
+1. Configure as variáveis de ambiente no painel do Vercel:
+   - `VITE_GEMINI_API_KEY`: Sua Gemini API key
+   - `VITE_OPENAI_API_KEY`: Sua OpenAI API key (opcional)
+   - `VITE_MINIMAX_API_KEY`: Sua Minimax API key (opcional)
+   - `VITE_MINIMAX_GROUP_ID`: Seu Minimax Group ID (opcional)
+   - `VITE_AZURE_OPENAI_API_KEY`: Sua Azure OpenAI API key (opcional)
+   - `VITE_AZURE_OPENAI_ENDPOINT`: Seu Azure OpenAI endpoint (opcional)
+   - `VITE_AZURE_OPENAI_DEPLOYMENT`: Seu Azure OpenAI deployment name (opcional)
 
-**IMPORTANTE:** Configure as variáveis de ambiente **ANTES** de fazer o deploy para evitar erros.
+2. Faça o deploy:
+   - Conecte seu repositório ao Vercel
+   - O Vercel irá detectar automaticamente o framework Vite
+   - O build será executado automaticamente
 
-1. Acesse o painel do Vercel: https://vercel.com/dashboard
-2. Vá para "Settings" → "Environment Variables" do seu projeto
-3. Adicione as seguintes variáveis:
+3. Configure o domínio (opcional):
+   - Adicione seu domínio personalizado nas configurações do projeto Vercel
 
-**Variável Obrigatória:**
-- `VITE_GEMINI_API_KEY`: Sua Gemini API key (obtida em https://makersuite.google.com/app/apikey)
-
-**Variáveis Opcionais (para outras APIs):**
-- `VITE_OPENAI_API_KEY`: Sua OpenAI API key
-- `VITE_MINIMAX_API_KEY`: Sua Minimax API key
-- `VITE_MINIMAX_GROUP_ID`: Seu Minimax Group ID
-- `VITE_AZURE_OPENAI_API_KEY`: Sua Azure OpenAI API key
-- `VITE_AZURE_OPENAI_ENDPOINT`: Seu Azure OpenAI endpoint
-- `VITE_AZURE_OPENAI_DEPLOYMENT`: Seu Azure OpenAI deployment name
-
-**Nota:** Use exatamente os nomes acima, incluindo o prefixo `VITE_`
-
-### Passo 2: Faça o Deploy
-
-1. Conecte seu repositório GitHub ao Vercel
-2. O Vercel irá detectar automaticamente que é um projeto Vite
-3. Clique em "Deploy"
-4. Aguarde o build completar
-
-### Passo 3: Verifique o Deploy
-
-Após o deploy, verifique se:
-- A aplicação carrega corretamente (sem tela azul apenas)
-- Todas as funcionalidades de IA estão operacionais
-- Não há erros no console do navegador
-
-### Passo 4: Configure o Domínio (Opcional)
-
-- Adicione seu domínio personalizado em "Settings" → "Domains"
-- Configure o DNS conforme instruções do Vercel
-
-### Troubleshooting
-
-**Erro de variáveis de ambiente:**
-- Verifique se as variáveis foram adicionadas **ANTES** do deploy
-- Confirme os nomes exatos das variáveis (incluindo `VITE_`)
-- Faça um novo deploy após configurar as variáveis
-
-**Tela azul/interface não carrega:**
-- Verifique o console do navegador por erros JavaScript
-- Confirme se as variáveis de ambiente estão corretas
-- Verifique os logs de build no painel do Vercel
+**Nota importante:** O arquivo `vercel.json` está configurado para mapear as variáveis de ambiente do Vercel para as variáveis usadas no aplicativo.
