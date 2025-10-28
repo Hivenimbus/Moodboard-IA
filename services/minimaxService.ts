@@ -8,7 +8,7 @@ const MINIMAX_API_URL = "https://api.minimax.io/v1/image_generation";
 const MINIMAX_API_KEY = process.env.MINIMAX_API_KEY;
 
 // Prompt principal simplificado para moodboard arquitetônico
-const MOODBOARD_SYSTEM_PROMPT = `Crie um moodboard arquitetônico como colagem visual incluindo: paleta de cores, materiais/texturas e elementos-chave.`;
+const MOODBOARD_SYSTEM_PROMPT = `Crie um moodboard arquitetônico clean e elegante com poucos elementos bem selecionados. Focus em essencialidade e harmonia visual. Sem textos.`;
 
 export const generateMoodboardItem = async (prompt: string, baseImage: BaseImage | null): Promise<GeneratedItem> => {
     try {
