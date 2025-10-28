@@ -6,6 +6,7 @@ import { Loader } from './components/Loader';
 import { ImageUploader } from './components/ImageUploader';
 import { ImageModal } from './components/ImageModal';
 import { generateMoodboardItem } from './services/minimaxService';
+import { editImageWithOpenRouter } from './services/openrouterService';
 import type { GeneratedItem, BaseImage } from './types';
 
 const App: React.FC = () => {
@@ -34,7 +35,16 @@ const App: React.FC = () => {
     setError(null);
 
     try {
-      const newItem = await generateMoodboardItem(prompt, baseImage);
+      let newItem: GeneratedItem;
+
+      if (baseImage) {
+        // Usar OpenRouter para edição de imagem (image-to-image)
+        newItem = await editImageWithOpenRouter(prompt, baseImage);
+      } else {
+        // Usar MiniMax para criação de imagem (text-to-image)
+        newItem = await generateMoodboardItem(prompt, baseImage);
+      }
+
       setGeneratedItems(prevItems => [newItem, ...prevItems]);
       setPrompt('');
     } catch (err) {
@@ -73,7 +83,8 @@ const App: React.FC = () => {
         data: selectedItem.base64Data,
         mimeType: selectedItem.mimeType,
       };
-      const newItem = await generateMoodboardItem(editPrompt, baseImageForEdit);
+      // Usar OpenRouter para variações (image-to-image)
+      const newItem = await editImageWithOpenRouter(editPrompt, baseImageForEdit);
       setGeneratedItems(prevItems => [newItem, ...prevItems]);
       handleCloseModal();
     } catch (err) {
